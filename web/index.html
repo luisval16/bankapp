@@ -16,6 +16,7 @@ and open the template in the editor.
         <script src="libs/js/popper.min.js"></script>
         <script src="libs/js/angular.min.js" ></script>
         <script src="libs/js/angular-route.js" ></script>
+        <script src="libs/js/angular-animate.js" ></script>
     </head>
     <body ng-app="bankApp" ng-controller="bankCtrl" >
         <div class="container">
@@ -84,29 +85,34 @@ and open the template in the editor.
                     <div class="row">
                         <div class="col">    
 
-                            <h1>{{saludo}}</h1>
+                            <h1 style="text-align: center">{{saludo}}</h1>
                         </div>
                     </div>
-                    <div class="row" style="margin-bottom: 10px">
+                    <div class="row" style="margin-bottom: 10px"
+                         ng-show="showTable">
 
                         <div class="col-2">
                             <button type="button" 
                                     class="btn btn-outline-primary" 
                                     ng-click="editUser('new')" 
-                                    ng-show="showTable" >
+                                     >
                                 &#9998; Crear Nueva Persona
                             </button>
                         </div>
                     </div>
                     <!-- Inicio formulario de agregar/modificar -->
-                    <div class="row" ng-hide="showTable" >
+                    <div class="row" ng-show="showForm" id="formulario">
                         <div class="col-lg-2 col-md-2 col-sm-0"></div>
                         <div class="col-lg-8 col-md-8 col-sm-12">
                             <div class="card" style="padding: 30px;margin-bottom: 20px">
                                 <form name="myForm" >
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <label for="nombre">Nombre:</label>
                                         <input type="text" class="form-control" id="nombre" ng-model="persona.nombre" placeholder="Ingrese el nombre de la persona" >
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nacionalidad">Nacionalidad:</label>
+                                        <input type="text" class="form-control" id="nacionalidad" ng-model="persona.nacionalidad" placeholder="Ingrese la nacionalidad de la persona">
                                     </div>
                                     <div class="form-group">
                                         <label for="genero">Genero:</label>
@@ -117,12 +123,9 @@ and open the template in the editor.
                                             <label><input type="radio" name="genero" id="F" ng-model="persona.genero" value="F" >Femenino</label>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="nacionalidad">Nacionalidad:</label>
-                                        <input type="text" class="form-control" id="nacionalidad" ng-model="persona.nacionalidad" placeholder="Ingrese la nacionalidad de la persona">
-                                    </div>
-                                    <button type="button" class="btn btn-primary"  ng-click="addUser()" ng-hide="showEdit" >Agregar</button>
-                                    <button type="button" class="btn btn-primary"   ng-show="showEdit" >Guardar</button>
+                                    <button type="button" class="btn btn-primary"  ng-click="valUser('a')" ng-hide="showEdit" >Agregar</button>
+                                    <button type="button" class="btn btn-primary"   ng-show="showEdit" ng-click="valUser('m')" >Guardar</button>
+                                    <button type="button" class="btn btn-danger"   ng-show="showEdit" ng-click="valUser('e')" >Eliminar</button>
                                     <button type="button" class="btn btn-success" ng-click="goBack()">Regresar</button>
                                 </form>
                             </div>
@@ -130,6 +133,27 @@ and open the template in the editor.
                         <div class="col-lg-2 col-md-2 col-sm-0"></div>
                     </div>
                     <!-- Fin formulario de agregar/modificar -->
+                    <!-- dialogo de confirmacion-->
+                    <div class="row" id="confirmacion" ng-show="showConfirm" >
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <div class="card" >
+                                <div class="card-body" >
+                                    <div class="card-title">
+                                <h3>Esta seguro que desea {{operacion}} ?</h3>
+                                </div>
+                                    <button type="button"  style="width: 30%" class="btn btn-outline-success" ng-click="executeOp()" >Si</button>
+                                   
+                                    <button type="button"  style="width: 30%" class="btn btn-outline-danger" ng-click="goBack()" >No</button>
+                                
+                                </div>
+                        </div>
+                        
+                    </div>
+                        <div class="col-2"></div>
+                    </div>
+                    <!-- fin dialgo de confirmacion -->
+                    
                     <div class="row">
                         <div class="col-12">
 
